@@ -1,5 +1,6 @@
 data "aws_iam_policy_document" "force_mfa" {
 
+
   statement {
 
     sid = "AllowAllUsersToListAccounts"
@@ -130,12 +131,12 @@ data "aws_iam_policy_document" "force_mfa" {
       "iam:ResyncMFADevice",
       "iam:ListAccountAliases",
       "iam:ListUsers",
-      "iam:ListSSHPublicKeys",
+     
       "iam:ListAccessKeys",
-      "iam:ListServiceSpecificCredentials",
+      
       "iam:ListMFADevices",
       "iam:GetAccountSummary",
-      "sts:GetSessionToken"
+    
     ]
 
     resources = [
@@ -158,7 +159,10 @@ data "aws_iam_policy_document" "force_mfa" {
 
 data "aws_iam_policy_document" "force_mfa_but_allow_sign_in_to_change_password" {
 
-  statement {
+
+
+
+statement {
 
     sid = "AllowAllUsersToListAccounts"
 
@@ -274,42 +278,5 @@ data "aws_iam_policy_document" "force_mfa_but_allow_sign_in_to_change_password" 
     
   }
 
-  statement {
 
-    sid = "BlockMostAccessUnlessSignedInWithMFA"
-
-    effect = "Deny"
-
-    not_actions = [
-      "iam:ChangePassword",
-      "iam:CreateLoginProfile",
-      "iam:CreateVirtualMFADevice",
-      "iam:DeleteVirtualMFADevice",
-      "iam:ListVirtualMFADevices",
-      "iam:EnableMFADevice",
-      "iam:ResyncMFADevice",
-      "iam:ListAccountAliases",
-      "iam:ListUsers",
-      "iam:ListSSHPublicKeys",
-      "iam:ListAccessKeys",
-      "iam:ListServiceSpecificCredentials",
-      "iam:ListMFADevices",
-      "iam:GetAccountSummary",
-      "sts:GetSessionToken"
-    ]
-
-    resources = [
-      "*"
-    ]
-
-    condition {
-      test = "BoolIfExists"
-      variable = "aws:MultiFactorAuthPresent"
-
-      values = [
-        "false",
-      ]
-    }
-    
-  }
 }
